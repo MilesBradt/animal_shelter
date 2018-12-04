@@ -12,10 +12,4 @@ describe(Adopter) do
       end
     end
 
-
-
-
-
-
-
 end
