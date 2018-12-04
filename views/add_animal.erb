@@ -1,7 +1,7 @@
 <ul>
 <% @list_animals.each do |animal| %>
 <li>
- <%= animal.name %>
+ <a href="/this_animal/<%= animal.id %>"> <%= animal.name %> </a>
 </li>
 <% end %>
 </ul>

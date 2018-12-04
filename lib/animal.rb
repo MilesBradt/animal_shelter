@@ -86,6 +86,19 @@ class Animal
     @id = list.first().fetch("id").to_i()
   end
 
+  def self.find(id)
+    animal = DB.exec("SELECT * FROM animals WHERE id = #{id};").first
+      name = animal.fetch("name")
+      gender = animal.fetch("gender")
+      type = animal.fetch("type")
+      breed = animal.fetch("breed")
+      id = animal.fetch("id").to_i()
+      added = animal.fetch("date_added")
+      owner = animal.fetch("owner")
+      ruby_animal = Animal.new({:name => name, :gender => gender, :type => type, :breed => breed, :id => id, :date_added => added, :owner => owner})
+      ruby_animal
+  end
+
   def ==(another_animal)
     self.name().==(another_animal.name()).&(self.gender().==(another_animal.gender())).&(self.type().==(another_animal.type())).&(self.breed().==(another_animal.breed())).&(self.id().==(another_animal.id())).&(self.date_added().==(another_animal.date_added())).&(self.owner().==(another_animal.owner()))
   end

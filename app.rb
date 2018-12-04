@@ -30,6 +30,12 @@ post("/animals_list") do
 
 end
 
+get("/this_animal/:id") do
+  id = params[:id].to_i
+  @animal = Animal.find(id)
+  erb(:this_animal)
+end
+
 
 get("/add_animal") do
   @list_animals = Animal.all()
