@@ -1,7 +1,8 @@
 require 'pg'
 require 'pry'
+
 class Animal
-  attr_reader(:name, :gender, :type, :breed, :id, :date_added)
+  attr_reader(:name, :gender, :type, :breed, :id, :date_added, :owner)
 
   def initialize(attributes)
     @name = attributes.fetch(:name)
@@ -10,6 +11,7 @@ class Animal
     @breed = attributes.fetch(:breed)
     @id = attributes.fetch(:id)
     @added = attributes.fetch(:date_added)
+    @owner = attributes.fetch(:owner)
   end
 
 
@@ -25,7 +27,8 @@ class Animal
       breed = animal.fetch("breed")
       id = animal.fetch("id").to_i()
       added = animal.fetch("date_added")
-      animals.push(Animal.new({:name => name, :gender => gender, :type => type, :breed => breed, :id => id, :date_added => added}))
+      owner = animal.fetch("owner")
+      animals.push(Animal.new({:name => name, :gender => gender, :type => type, :breed => breed, :id => id, :date_added => added, :owner => owner}))
     end
     animals
   end
@@ -40,7 +43,8 @@ class Animal
      breed = animal.fetch("breed")
      id = animal.fetch("id").to_i()
      added = animal.fetch("date_added")
-     animals.push(Animal.new({:name => name, :gender => gender, :type => type, :breed => breed, :id => id, :date_added => added}))
+     owner = animal.fetch("owner")
+     animals.push(Animal.new({:name => name, :gender => gender, :type => type, :breed => breed, :id => id, :date_added => added, :owner => owner}))
    end
    animals
   end
@@ -55,18 +59,34 @@ class Animal
      breed = animal.fetch("breed")
      id = animal.fetch("id").to_i()
      added = animal.fetch("date_added")
-     animals.push(Animal.new({:name => name, :gender => gender, :type => type, :breed => breed, :id => id, :date_added => added}))
+     owner = animal.fetch("owner")
+     animals.push(Animal.new({:name => name, :gender => gender, :type => type, :breed => breed, :id => id, :date_added => added, :owner => owner}))
    end
    animals
   end
 
+  def self.sort_by_date
+    animal_list = DB.exec("SELECT * FROM animals ORDER BY date_added;")
+    animals = []
+    animal_list.each() do |animal|
+      name = animal.fetch("name")
+      gender = animal.fetch("gender")
+      type = animal.fetch("type")
+      breed = animal.fetch("breed")
+      id = animal.fetch("id").to_i()
+      added = animal.fetch("date_added")
+      owner = animal.fetch("owner")
+      animals.push(Animal.new({:name => name, :gender => gender, :type => type, :breed => breed, :id => id, :date_added => added, :owner => owner}))
+    end
+    animals
+  end
+
   def save
-    DB.exec("INSERT INTO animals (name, gender, type, breed, id, date_added) VALUES ('#{@name}', '#{@gender}', '#{@type}', '#{@breed}', #{@id}, '#{@added}');")
+    DB.exec("INSERT INTO animals (name, gender, type, breed, id, date_added, owner) VALUES ('#{@name}', '#{@gender}', '#{@type}', '#{@breed}', #{@id}, '#{@added}', '#{@owner}');")
   end
 
   def ==(another_animal)
-    self.name().==(another_animal.name()).&(self.gender().==(another_animal.gender())).&(self.type().==(another_animal.type())).&(self.breed().==(another_animal.breed())).&(self.id().==(another_animal.id())).&(self.date_added().==(another_animal.date_added()))
+    self.name().==(another_animal.name()).&(self.gender().==(another_animal.gender())).&(self.type().==(another_animal.type())).&(self.breed().==(another_animal.breed())).&(self.id().==(another_animal.id())).&(self.date_added().==(another_animal.date_added())).&(self.owner().==(another_animal.owner()))
   end
-
 
 end
