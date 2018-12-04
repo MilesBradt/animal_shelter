@@ -1,0 +1,5 @@
+CREATE DATABASE shelter;
+\c shelter;
+CREATE TABLE animals (name varchar, breed varchar, type varchar, gender varchar, date_added timestamp, owner varchar, id serial PRIMARY KEY);
+\dt animals;
+CREATE TABLE adopter (name varchar, phone_number varchar, animal_type varchar, animal_breed varchar);
