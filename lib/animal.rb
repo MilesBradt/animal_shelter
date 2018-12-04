@@ -82,7 +82,8 @@ class Animal
   end
 
   def save
-    DB.exec("INSERT INTO animals (name, gender, type, breed, id, date_added, owner) VALUES ('#{@name}', '#{@gender}', '#{@type}', '#{@breed}', #{@id}, '#{@added}', '#{@owner}');")
+    list = DB.exec("INSERT INTO animals (name, gender, type, breed, date_added, owner) VALUES ('#{@name}', '#{@gender}', '#{@type}', '#{@breed}', '#{@added}', '#{@owner}') RETURNING id;")
+    @id = list.first().fetch("id").to_i()
   end
 
   def ==(another_animal)

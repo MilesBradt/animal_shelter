@@ -12,18 +12,28 @@ get("/") do
   erb(:index)
 end
 
-get("/add_animal") do
-  erb(:add_animal)
-end
-
-post("/add_animal") do
-  erb(:add_animal)
-end
-
-
 get("/animals_list") do
-  @list_animals = Animal.all()
   erb(:animals)
+end
+
+post("/animals_list") do
+  name = params.fetch('name')
+  gender = params.fetch('gender')
+  type = params.fetch('type')
+  breed = params.fetch('breed')
+  added = params.fetch('date_added')
+  # id = params.fetch('id').to_i
+  new_animal = Animal.new({:name => name, :gender => gender, :type => type, :breed => breed, :id => nil, :date_added => added, :owner => "none"})
+
+  new_animal.save
+  erb(:animals)
+
+end
+
+
+get("/add_animal") do
+  @list_animals = Animal.all()
+  erb(:add_animal)
 end
 
 get("/adopters_list") do
@@ -31,7 +41,7 @@ get("/adopters_list") do
   erb(:adopters)
 end
 
-post("/animals_list") do
+post("/add_animal") do
   erb(:animals)
 end
 
