@@ -21,9 +21,9 @@ post("/animals_list") do
   gender = params.fetch('gender')
   type = params.fetch('type')
   breed = params.fetch('breed')
-  added = params.fetch('date_added')
+  added = params.fetch('added')
   # id = params.fetch('id').to_i
-  new_animal = Animal.new({:name => name, :gender => gender, :type => type, :breed => breed, :id => nil, :date_added => added, :owner => "none"})
+  new_animal = Animal.new({:name => name, :gender => gender, :type => type, :breed => breed, :id => nil, :added => added, :owner => "none"})
 
   new_animal.save
   erb(:animals)
